@@ -191,4 +191,26 @@ class BiCRectView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BiCRectView) {
+
+        private val bcr : BiCRect = BiCRect(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            bcr.draw(canvas, paint)
+            animator.animate {
+                bcr.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            bcr.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
