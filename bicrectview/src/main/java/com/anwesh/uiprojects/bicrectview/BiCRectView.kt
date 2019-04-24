@@ -49,7 +49,7 @@ fun Canvas.drawBCRNode(i : Int, scale : Float, paint : Paint) {
     val sc2 : Float = scale.divideScale(1, 2)
     paint.color = foreColor
     paint.strokeWidth = Math.min(w, h) / strokeFactor
-    paint.strokeCap = Paint.Cap.ROUND 
+    paint.strokeCap = Paint.Cap.ROUND
     save()
     translate(w / 2, gap * (i + 1))
     rotate(90f * sc2)
@@ -57,4 +57,22 @@ fun Canvas.drawBCRNode(i : Int, scale : Float, paint : Paint) {
         drawBiCLine(size, sc1.divideScale(j, lines), paint)
     }
     restore()
+}
+
+class BiCRectView(ctx : Context) : View(ctx) {
+
+    private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    
+    override fun onDraw(canvas : Canvas) {
+
+    }
+
+    override fun onTouchEvent(event : MotionEvent) : Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+
+            }
+        }
+        return true
+    }
 }
