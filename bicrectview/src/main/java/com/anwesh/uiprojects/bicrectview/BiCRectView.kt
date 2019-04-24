@@ -31,12 +31,18 @@ fun Float.mirrorValue(a : Int, b : Int) : Float = (1 - scaleFactor()) * a.invers
 fun Float.updateValue(dir : Float, a : Int, b : Int) : Float = mirrorValue(a, b) * dir * scGap
 
 fun Canvas.drawBiCLine(size : Float, scale : Float, paint : Paint) {
+    val r : Float = size / rFactor
     val x : Float = size * scale
     save()
-    drawLine(0f, 0f, x, 0f, paint)
-    translate(x, 0f)
-    drawArc(RectF(-size / 5, -size / 5, size / 5, size / 5), 90f,
+    for (j in 0..1) {
+        val y : Float = -r + 2 * r * j
+        drawLine(0f, y, x, y, paint)
+    }
+    save()
+    translate((size - r) * scale + r, 0f)
+    drawArc(RectF(-r, -r, r, r), 90f,
             180f, false, paint)
+    restore()
     restore()
 }
 
@@ -50,11 +56,15 @@ fun Canvas.drawBCRNode(i : Int, scale : Float, paint : Paint) {
     paint.color = foreColor
     paint.strokeWidth = Math.min(w, h) / strokeFactor
     paint.strokeCap = Paint.Cap.ROUND
+    paint.style = Paint.Style.STROKE
     save()
     translate(w / 2, gap * (i + 1))
     rotate(90f * sc2)
     for (j in 0..(lines - 1)) {
+        save()
+        scale(1f - 2 * j, 1f)
         drawBiCLine(size, sc1.divideScale(j, lines), paint)
+        restore()
     }
     restore()
 }
